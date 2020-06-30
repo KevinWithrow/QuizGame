@@ -1,0 +1,132 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+}
+:root {
+  --hue-neutral: 200;
+  --hue-wrong: 0;
+  --hue-correct: 145;
+
+}
+
+body{
+  --hue: var(--hue-neutral);
+  padding: 0;
+  margin: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(var(--hue), 100%, 20%);
+}
+
+body.correct {
+  --hue: var(--hue-correct);
+}
+body.wrong {
+  --hue: var(--hue-wrong);
+}
+.container {
+  width: 800px;
+  max-width: 80%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+}
+
+.btnGrid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 10px;
+  margin: 20px 0;
+}
+.btn {
+  --hue: var(--hue-neutral);
+  border: 4px solid hsl(var(--hue), 100%, 30%);
+  background-color: hsl(var(--hue), 100%, 50%);
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white;
+  outline: none;
+}
+.btn:hover {
+  border-color: black;
+}
+.btn.correct {
+  --hue: var(--hue-correct); 
+  color: black;
+}
+.btn.wrong{
+  --hue: var(--hue-wrong); 
+}
+
+.startBtn, .nextBtn {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px 30px;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hide{
+  display: none;
+}
+.score{
+position:fixed;
+top: 0;
+color: white;
+font-size: 50px;
+}
+
+
+/*   
+html {
+    background-color: #333232;
+    height: 100%;
+  }
+  .container{
+    height: 325px;
+    width: 350px;
+    background-color: #f0cc85;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 75px 75px 75px 75px;
+    grid-template-areas: 
+    ". billAmount"
+    ". tipPercentage"
+    ". tipAmount"
+    ".totalBill"
+    "btn btn"
+    ;
+    margin: 100px auto;
+    border: 7px solid #69a0b1;
+    padding: 25px;
+    box-shadow: black  7px 7px 7px;
+    border-radius: 15px;
+  }
+#billAmount{
+  grid-area: billAmount;
+}
+#tipPercentage{
+  grid-area: tipPercentage;
+}
+#tipAmount{
+  grid-area: tipAmount;
+}
+#totalBill{
+  grid-area: totalBill;
+}
+.inputStyling{
+  height: 25px;
+  width: 250px;
+}
+#btn{
+  grid-area: btn;
+  height: 25px;
+  width: auto;
+} */
