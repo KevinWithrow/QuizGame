@@ -38,7 +38,7 @@ function showQuestion(question) {
         button.classList.add('btn')
         if (answer.correct) { 
             button.dataset.correct = answer.correct
-            increaseScore()
+              
         }
         button.addEventListener('click', selectAnswer)
         answerButtonsElement.appendChild(button)
@@ -50,18 +50,25 @@ function resetState() {
     nextButton.classList.add('hide')
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild
-        (answerButtonsElement.firstChild)
-        
+        (answerButtonsElement.firstChild) 
     }
 }
 
 function selectAnswer(e) {
     const selectedButton = e.target
     const correct = selectedButton.dataset.correct
-    setStatusClass(document.body,correct)
+    const wrong = selectedButton.dataset.wrong
+
+   if (correct) {
+       increaseScore()
+    setStatusClass(document.body,correct) 
+   } else {
+    setStatusClass(document.body,wrong) 
+   }
+    
+    
     Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
-       
+        setStatusClass(button, button.dataset.correct) 
     })
     if (shuffledQuestions.length > currentQuestionIndex + 1){
         nextButton.classList.remove('hide')
@@ -74,17 +81,16 @@ function selectAnswer(e) {
 function setStatusClass(element, correct) {
     if (correct) {
         element.classList.add('correct')
-        
     }else {
         element.classList.add('wrong')
     }
 }
+
 function increaseScore(){
     console.log('score increase', score)
-    return displayScore.innerHTML = score + 1
+    return displayScore.innerHTML = ++score
     
 }
-
 
 
 function clearStatusClass(element) {
@@ -142,5 +148,5 @@ const questions = [
 ]
 var score = 0;
 var displayScore = document.querySelector('.score')
-displayScore.innerHTML = score  
+displayScore.innerHTML = score; 
 

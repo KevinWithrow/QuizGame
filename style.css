@@ -82,7 +82,9 @@ top: 0;
 color: white;
 font-size: 50px;
 }
-
+.sign {
+  align-items: center;
+}
 
 /*   
 html {
