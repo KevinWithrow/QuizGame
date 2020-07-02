@@ -88,8 +88,7 @@ function setStatusClass(element, correct) {
 
 function increaseScore(){
     console.log('score increase', score)
-    return displayScore.innerHTML = ++score
-    
+    return displayScore.innerHTML = ++score 
 }
 
 
@@ -148,5 +147,14 @@ const questions = [
 ]
 var score = 0;
 var displayScore = document.querySelector('.score')
-displayScore.innerHTML = score; 
+displayScore.innerHTML = "Score: " + score; 
 
+
+var displayUsername = document.querySelector('.Username')
+displayUsername.innerHTML = "User name: " + new URL(document.location).searchParams.get("fname"); 
+
+// function showUsername(){
+//     console.log("show userName")
+//     return displayUsername.innerHTML = ("fname");
+// }
+     

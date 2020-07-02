@@ -82,53 +82,34 @@ top: 0;
 color: white;
 font-size: 50px;
 }
+
+/* --------Log in page------------------ */
 .sign {
-  align-items: center;
+  position:fixed;
+top: 0;
+color: white;
+font-size: 50px;
 }
 
-/*   
-html {
-    background-color: #333232;
-    height: 100%;
-  }
-  .container{
-    height: 325px;
-    width: 350px;
-    background-color: #f0cc85;
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    grid-template-rows: 75px 75px 75px 75px;
-    grid-template-areas: 
-    ". billAmount"
-    ". tipPercentage"
-    ". tipAmount"
-    ".totalBill"
-    "btn btn"
-    ;
-    margin: 100px auto;
-    border: 7px solid #69a0b1;
-    padding: 25px;
-    box-shadow: black  7px 7px 7px;
-    border-radius: 15px;
-  }
-#billAmount{
-  grid-area: billAmount;
+.un{
+  align-items: center; 
 }
-#tipPercentage{
-  grid-area: tipPercentage;
+.submit{
+  align-items: center; 
 }
-#tipAmount{
-  grid-area: tipAmount;
+
+a.button {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color: black;
 }
-#totalBill{
-  grid-area: totalBill;
+.Username{
+  position: absolute;
+  bottom: 0;
+  color: white;
+
+
 }
-.inputStyling{
-  height: 25px;
-  width: 250px;
-}
-#btn{
-  grid-area: btn;
-  height: 25px;
-  width: auto;
-} */
