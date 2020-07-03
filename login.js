@@ -2,10 +2,10 @@
 // new URL(document.location).searchParams.get("fname")
 // console.log("fname is found")
 
-function myFunction() {
-    console.log("The button is working")
-      document.getElementById("openGame").innerHTML = "index.html";
-}
+// function myFunction() {
+//     console.log("The button is working")
+//       document.getElementById("openGame").innerHTML = "index.html";
+// }
 
 
 // var displayUsername = document.querySelector('fname')

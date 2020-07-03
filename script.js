@@ -48,9 +48,14 @@ function showQuestion(question) {
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
+    if (startButton.innerText ===  'Restart') {
+        score = 0;
+        displayScore.innerHTML = "Score: " + score;
+    }
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild
         (answerButtonsElement.firstChild) 
+        
     }
 }
 
@@ -75,6 +80,7 @@ function selectAnswer(e) {
     } else {
         startButton.innerText = 'Restart'
         startButton.classList.remove('hide')
+        
     }
 }
 
@@ -88,7 +94,7 @@ function setStatusClass(element, correct) {
 
 function increaseScore(){
     console.log('score increase', score)
-    return displayScore.innerHTML = ++score 
+    return displayScore.innerHTML = "Score: " + ++score 
 }
 
 
@@ -147,7 +153,7 @@ const questions = [
 ]
 var score = 0;
 var displayScore = document.querySelector('.score')
-displayScore.innerHTML = "Score: " + score; 
+displayScore.innerHTML =  "Score: " + score; 
 
 
 var displayUsername = document.querySelector('.Username')
