@@ -11,7 +11,8 @@
 }
 
 body{
-  --hue: var(--hue-neutral);
+  /* --hue: var(--hue-neutral); */
+  background-image: url("jorge-fernandez-wH3YxJwMC5o-unsplash.jpg");
   padding: 0;
   margin: 0;
   display: flex;
@@ -78,14 +79,31 @@ body.wrong {
 }
 .score{
 position:fixed;
+margin-left: 0;
 top: 0;
 color: white;
-font-size: 50px;
+font-size: 75px;
+font-family: 'Piedra', cursive;
+text-shadow: 5px 5px 5px #000000;
+}
+#category{
+  position:fixed;
+  top: 3%;
+  left:0;
+  color: white;
+  font-size: 25px;
+}
+#difficulty{
+  position:fixed;
+  top: 0;
+  left: 0;
+  color: white;
+  font-size: 25px;
 }
 
 /* --------Log in page------------------ */
 .sign {
-  position:fixed;
+position:fixed;
 top: 0;
 color: white;
 font-size: 50px;
@@ -94,10 +112,13 @@ font-size: 50px;
 .un{
   align-items: center; 
 }
-.submit{
-  align-items: center; 
+label{
+  color:white
 }
-
+#signIn{
+position:fixed;
+right: 10;
+}
 a.button {
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -110,6 +131,24 @@ a.button {
   position: absolute;
   bottom: 0;
   color: white;
+  text-shadow: 5px 5px 5px #000000;
+  font-family: 'Piedra', cursive;
+  font-size: 75px;
+}
+.title{
+position:fixed;
+top: 0;
+color: white;
+font-size: 100px;
+font-family: 'Piedra', cursive;
+text-shadow: 5px 5px 5px #000000;
+}
 
+h5{
+position: fixed; 
+top: 10px;
+color: white;
+text-shadow: 5px 5px 5px #000000;
+margin-top: 175px;
 
 }
