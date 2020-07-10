@@ -11,8 +11,10 @@
 }
 
 body{
-  /* --hue: var(--hue-neutral); */
-  background-image: url("jorge-fernandez-wH3YxJwMC5o-unsplash.jpg");
+  --hue: var(--hue-neutral);
+  /* background-image: url("jorge-fernandez-wH3YxJwMC5o-unsplash.jpg"); */
+  border: 25px solid black;
+
   padding: 0;
   margin: 0;
   display: flex;
@@ -76,6 +78,13 @@ body.wrong {
 }
 .hide{
   display: none;
+  
+}
+#home{
+  position:fixed;
+  top:7%;
+  right: 5%;
+
 }
 .score{
 position:fixed;
@@ -113,7 +122,10 @@ font-size: 50px;
   align-items: center; 
 }
 label{
-  color:white
+  color:white;
+  text-shadow: 5px 5px 5px #000000;
+  font-family: 'Open Sans', sans-serif;
+  
 }
 #signIn{
 position:fixed;
@@ -146,9 +158,11 @@ text-shadow: 5px 5px 5px #000000;
 
 h5{
 position: fixed; 
-top: 10px;
+top: 20px;
 color: white;
 text-shadow: 5px 5px 5px #000000;
 margin-top: 175px;
+font-size: 30px;
+font-family: 'Open Sans', sans-serif;
 
 }
