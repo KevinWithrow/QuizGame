@@ -84,7 +84,11 @@ body.wrong {
   position:fixed;
   top:7%;
   right: 5%;
-
+}
+#restartbtn{
+  position:fixed;
+  top:13%;
+  right: 5%;
 }
 .score{
 position:fixed;

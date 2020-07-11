@@ -1,4 +1,5 @@
-data = "hello"
+
+let data = []
 
 window.onload = sendApiRequest
 
@@ -8,6 +9,11 @@ const nextButton = document.getElementById('nextBtn')
 const questionContainerElement = document.getElementById('questionContainer')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answerButtons')
+const answerBtnArray = [document.getElementById('answer1'),
+                        document.getElementById('answer2'),
+                        document.getElementById('answer3'),
+                        document.getElementById('answer4')]
+
 let shuffledQuestions, currentQuestionIndex
 var questionData = []
 var score = 0;
@@ -17,6 +23,9 @@ displayScore.innerHTML =  "Score: " + score;
 var displayUsername = document.querySelector('.Username')
 displayUsername.innerHTML = "User name: " + new URL(document.location).searchParams.get("fname");
 
+function refreshPage(){
+    window.location.reload();
+} 
 
 async function sendApiRequest(){
   var request = new XMLHttpRequest();
@@ -33,18 +42,17 @@ async function sendApiRequest(){
       console.log(data)
 
     } else {
-      // We reached our target server, but it returned an error
       console.log("error")
     }
 
   };
 
   request.send();
-    //let response = await fetch(`https://opentdb.com/api.php?amount=10&category=17&type=multiple`);
-    //let data = await response.json()
+
 }
 
 // ---------------------------------------Pull API data in----------------------------------
+// TODO -  Look into HTML encoding. Questions arent coming in correctly
 function useApiData(data) {
 document.querySelector("#question").innerHTML = `${data[0].question}`
 document.querySelector("#answer1").innerHTML = data[0].correct_answer
@@ -53,10 +61,13 @@ document.querySelector("#answer3").innerHTML = data[0].incorrect_answers[1]
 document.querySelector("#answer4").innerHTML = data[0].incorrect_answers[2]
 }
 // ---------------------------------------correct answer chosen----------------------------------
-let correctButton = document.querySelector("#answer1")
-correctButton.addEventListener("click",(e)=>{
-    selectAnswer(e)
-    //  sendApiRequest()
+
+
+answerBtnArray.forEach(button => {
+    button.addEventListener("click",(e)=>{
+        selectAnswer(e)
+       
+    })
 })
 // ---------------------------------------start game when START btn is clicked---------------------------------
 startButton.addEventListener('click', startGame)
@@ -70,64 +81,85 @@ nextButton.addEventListener('click', () => {
 function startGame() {
     console.log('Started')
     startButton.classList.add('hide')
-    // shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionContainerElement.classList.remove('hide')
-    // setNextQuestion()
+
 
 }
 // ---------------------------------------bring in next question and hide Next btn----------------------------------
 function setNextQuestion() {
     resetState()
     showQuestion(questionData[currentQuestionIndex])
+    enableAnswerButtons()
 
 
 }
+function revealCorrectAnswerColor(correctAnswerString) {
+    answerBtnArray.forEach(button => {
+        if (button.innerHTML === correctAnswerString){
+            button.classList.add('correct')
+        }else {
+            button.classList.add('wrong')
+        }
+    })
+}
 
+function resetBtnColor() {
+    answerBtnArray.forEach(button =>{  
+        button.classList.remove('wrong') 
+        button.classList.remove('correct')        
+    })
+
+}
+
+function fillButton(buttonArray, answerString) {
+    const randomIndex = Math.floor(Math.random() * buttonArray.length)
+    buttonArray[randomIndex].innerHTML = answerString 
+    buttonArray.splice(randomIndex, 1)
+}
 // ---------------------------------------bring in answers for each button, if correct bring in CORRECT CSS---------------------------------
 function showQuestion(question) {
     console.log(question)
     questionElement.innerText = question.question
-    question.incorrect_answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer
-        button.classList.add('btn')
-        if (answer.correct) {
-            alert('otest')
-            button.dataset.correct = answer.correct
-        }
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
-    })
+    const buttonArray = [document.getElementById('answer1'),
+    document.getElementById('answer2'),
+    document.getElementById('answer3'),
+    document.getElementById('answer4')]
+    fillButton(buttonArray, question.correct_answer)
+    while (buttonArray.length > 0) {
+        const incorrectAnswer = question.incorrect_answers.shift()
+        fillButton(buttonArray, incorrectAnswer)
+    }
 
-    const button = document.createElement('button')
-    button.innerText = question.correct_answer
-    button.classList.add('btn')
-/*    if (answer.correct) {
-        alert('otest')
-        button.dataset.correct = answer.correct
-    }*/
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-
-
+    // answerBtnArray[0].innerHTML = question.correct_answer
+    // answerBtnArray[1].innerHTML = question.incorrect_answers[0]
+    // answerBtnArray[2].innerHTML = question.incorrect_answers[1]
+    // answerBtnArray[3].innerHTML = question.incorrect_answers[2]
+    resetBtnColor()
+  
 }
 
-// ---------------------------------------show score and Restart button if all 5 questions have been answered---------------------------------
+// ---------------------------------------show score and Restart button if all questions have been answered---------------------------------
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
-    // TODO - we cant use innertext of start to determine if its time to reset score
-    if (startButton.innerText ===  'Next') {
+    if (startButton.innerText ===  '') {
         score = 0;
         displayScore.innerHTML = "Score: " + score;
     }
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild
-        (answerButtonsElement.firstChild)
-    }
 }
-
+function disableAnswerButtons() {
+    document.querySelector("#answer1").disabled = true
+    document.querySelector("#answer2").disabled = true
+    document.querySelector("#answer3").disabled = true
+    document.querySelector("#answer4").disabled = true
+}
+function enableAnswerButtons() {
+    document.querySelector("#answer1").disabled = false
+    document.querySelector("#answer2").disabled = false
+    document.querySelector("#answer3").disabled = false
+    document.querySelector("#answer4").disabled = false
+}
 // ---------------------------------------show CORRECT/WRONG CSS for each answer and increment score--------------------------------
 function selectAnswer(e) {
 
@@ -135,26 +167,18 @@ function selectAnswer(e) {
     const selectedButton = e.target
     console.log(selectedButton)
     const correct = questionData[currentQuestionIndex].correct_answer
-    const wrong = questionData[currentQuestionIndex].incorrect_answers
-   if (correct) {
-        // TODO - dont let people push over and over and over
+    disableAnswerButtons()
+   if (correct === selectedButton.innerHTML) {
        increaseScore()
     setStatusClass(document.body,correct)
     console.log("correct!")
-   } else {
-    setStatusClass(document.body,wrong)
-    console.log("wrong!")
-   }
+   } 
 
+   revealCorrectAnswerColor(correct)
 
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
-    })
     if (shuffledQuestions > currentQuestionIndex + 1){
         nextButton.classList.remove('hide')
     } else {
-        startButton.innerText = 'Restart'
-        startButton.classList.remove('hide')
         nextButton.classList.remove('hide')
     }
 }
@@ -169,6 +193,7 @@ function setStatusClass(element, correct) {
 }
 
 function increaseScore(){
+    
     console.log('score increase', score)
     return displayScore.innerHTML = "Score: " + ++score
 }
@@ -189,51 +214,7 @@ console.log(questionData)
             `${questionData.results[0].incorrect_answers[2] }` === false
         ]
     },
-    // {
-    //     question: questionData.results[0].question,
-    //     answers: [
-    //         `${questionData.results[0].correct_answer }` === true ,
-    //         `${questionData.results[0].incorrect_answers[0] }` === false,
-    //         `${questionData.results[0].incorrect_answers[1] }` === false,
-    //         `${questionData.results[0].incorrect_answers[2] }` === false
-    //     ]
-    // },
-    // {
-    //     question: questionData.results[0].question,
-    //     answers: [
-    //         `${questionData.results[0].correct_answer }` === true ,
-    //         `${questionData.results[0].incorrect_answers[0] }` === false,
-    //         `${questionData.results[0].incorrect_answers[1] }` === false,
-    //         `${questionData.results[0].incorrect_answers[2] }` === false
-    //     ]
-    // },
-    // {
-    //     question: questionData.results[0].question,
-    //     answers: [
-    //         `${questionData.results[0].correct_answer }` === true ,
-    //         `${questionData.results[0].incorrect_answers[0] }` === false,
-    //         `${questionData.results[0].incorrect_answers[1] }` === false,
-    //         `${questionData.results[0].incorrect_answers[2] }` === false
-    //     ]
-    // },
-    // {
-    //     question: questionData.results[0].question,
-    //     answers: [
-    //         `${questionData.results[0].correct_answer }` === true ,
-    //         console.log(questionData)
-    //         `${questionData.results[0].incorrect_answers[0] }` === false,
-    //         `${questionData.results[0].incorrect_answers[1] }` === false,
-    //         `${questionData.results[0].incorrect_answers[2] }` === false
-    //     ]
-    // }
 
 ]
 
-
-
-
-
-// function showUsername(){
-//     console.log("show userName")
-//     return displayUsername.innerHTML = ("fname");
 }
