@@ -1,5 +1,6 @@
-window.onload = sendApiRequest
+data = "hello"
 
+window.onload = sendApiRequest
 
 
 const startButton = document.getElementById('startBtn')
@@ -11,25 +12,45 @@ let shuffledQuestions, currentQuestionIndex
 var questionData = []
 var score = 0;
 var displayScore = document.querySelector('.score')
-displayScore.innerHTML =  "Score: " + score; 
+displayScore.innerHTML =  "Score: " + score;
 
 var displayUsername = document.querySelector('.Username')
-displayUsername.innerHTML = "User name: " + new URL(document.location).searchParams.get("fname"); 
+displayUsername.innerHTML = "User name: " + new URL(document.location).searchParams.get("fname");
+
 
 async function sendApiRequest(){
-    let response = await fetch(`https://opentdb.com/api.php?amount=10&category=17&type=multiple`);
-    let data = await response.json()
-    useApiData(data)
+  var request = new XMLHttpRequest();
+  request.open('GET', 'https://opentdb.com/api.php?amount=10&category=17&type=multiple', true);
+
+  request.onload = function() {
+
+    if (this.status >= 200 && this.status < 400) {
+
+      response_json = JSON.parse(this.response); 
+      data = response_json.results
+      useApiData(data)
+      console.log("test")
+      console.log(data)
+
+    } else {
+      // We reached our target server, but it returned an error
+      console.log("error")
+    }
+
+  };
+
+  request.send();
+    //let response = await fetch(`https://opentdb.com/api.php?amount=10&category=17&type=multiple`);
+    //let data = await response.json()
 }
+
 // ---------------------------------------Pull API data in----------------------------------
 function useApiData(data) {
-questionData = data.results
-console.log(questionData)
-document.querySelector("#question").innerHTML = `${data.results[0].question}`
-document.querySelector("#answer1").innerHTML = data.results[0].correct_answer
-document.querySelector("#answer2").innerHTML = data.results[0].incorrect_answers[0]
-document.querySelector("#answer3").innerHTML = data.results[0].incorrect_answers[1]
-document.querySelector("#answer4").innerHTML = data.results[0].incorrect_answers[2]
+document.querySelector("#question").innerHTML = `${data[0].question}`
+document.querySelector("#answer1").innerHTML = data[0].correct_answer
+document.querySelector("#answer2").innerHTML = data[0].incorrect_answers[0]
+document.querySelector("#answer3").innerHTML = data[0].incorrect_answers[1]
+document.querySelector("#answer4").innerHTML = data[0].incorrect_answers[2]
 }
 // ---------------------------------------correct answer chosen----------------------------------
 let correctButton = document.querySelector("#answer1")
@@ -53,13 +74,14 @@ function startGame() {
     currentQuestionIndex = 0
     questionContainerElement.classList.remove('hide')
     // setNextQuestion()
+
 }
 // ---------------------------------------bring in next question and hide Next btn----------------------------------
 function setNextQuestion() {
     resetState()
     showQuestion(questionData[currentQuestionIndex])
-   
-   
+
+
 }
 
 // ---------------------------------------bring in answers for each button, if correct bring in CORRECT CSS---------------------------------
@@ -68,55 +90,72 @@ function showQuestion(question) {
     questionElement.innerText = question.question
     question.incorrect_answers.forEach(answer => {
         const button = document.createElement('button')
-        button.innerText = answer.text
+        button.innerText = answer
         button.classList.add('btn')
-        if (answer.correct) { 
-            button.dataset.correct = answer.correct     
+        if (answer.correct) {
+            alert('otest')
+            button.dataset.correct = answer.correct
         }
         button.addEventListener('click', selectAnswer)
         answerButtonsElement.appendChild(button)
     })
+
+    const button = document.createElement('button')
+    button.innerText = question.correct_answer
+    button.classList.add('btn')
+/*    if (answer.correct) {
+        alert('otest')
+        button.dataset.correct = answer.correct
+    }*/
+    button.addEventListener('click', selectAnswer)
+    answerButtonsElement.appendChild(button)
+
+
 }
 
 // ---------------------------------------show score and Restart button if all 5 questions have been answered---------------------------------
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
-    if (startButton.innerText ===  'Restart') {
+    // TODO - we cant use innertext of start to determine if its time to reset score
+    if (startButton.innerText ===  'Next') {
         score = 0;
         displayScore.innerHTML = "Score: " + score;
     }
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild
-        (answerButtonsElement.firstChild) 
+        (answerButtonsElement.firstChild)
     }
 }
 
 // ---------------------------------------show CORRECT/WRONG CSS for each answer and increment score--------------------------------
 function selectAnswer(e) {
+
+    questionData = data
     const selectedButton = e.target
     console.log(selectedButton)
     const correct = questionData[currentQuestionIndex].correct_answer
     const wrong = questionData[currentQuestionIndex].incorrect_answers
    if (correct) {
+        // TODO - dont let people push over and over and over
        increaseScore()
-    setStatusClass(document.body,correct) 
+    setStatusClass(document.body,correct)
     console.log("correct!")
    } else {
-    setStatusClass(document.body,wrong) 
+    setStatusClass(document.body,wrong)
     console.log("wrong!")
    }
-    
-    
+
+
     Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct) 
+        setStatusClass(button, button.dataset.correct)
     })
     if (shuffledQuestions > currentQuestionIndex + 1){
         nextButton.classList.remove('hide')
     } else {
         startButton.innerText = 'Restart'
         startButton.classList.remove('hide')
-        nextButton.classList.remove('hide') 
+        nextButton.classList.remove('hide')
     }
 }
 
@@ -131,7 +170,7 @@ function setStatusClass(element, correct) {
 
 function increaseScore(){
     console.log('score increase', score)
-    return displayScore.innerHTML = "Score: " + ++score 
+    return displayScore.innerHTML = "Score: " + ++score
 }
 
 
@@ -139,7 +178,7 @@ function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
 }
-console.log(questionData) 
+console.log(questionData)
     function loadQuestions() {[
     {
         question: questionData.results[0].question,
@@ -198,4 +237,3 @@ console.log(questionData)
 //     console.log("show userName")
 //     return displayUsername.innerHTML = ("fname");
 }
-    
