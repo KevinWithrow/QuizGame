@@ -4,6 +4,7 @@ let data = []
 window.onload = sendApiRequest
 
 
+
 const startButton = document.getElementById('startBtn')
 const nextButton = document.getElementById('nextBtn')
 const questionContainerElement = document.getElementById('questionContainer')
@@ -27,9 +28,10 @@ function refreshPage(){
     window.location.reload();
 } 
 
+
 async function sendApiRequest(){
   var request = new XMLHttpRequest();
-  request.open('GET', 'https://opentdb.com/api.php?amount=10&category=17&type=multiple', true);
+  request.open('GET', 'https://opentdb.com/api.php?amount=4&category=17&difficulty=easy&type=multiple&encode=base64', true);
 
   request.onload = function() {
 
@@ -37,6 +39,7 @@ async function sendApiRequest(){
 
       response_json = JSON.parse(this.response); 
       data = response_json.results
+      data = removeEncoding(data)
       useApiData(data)
       console.log("test")
       console.log(data)
@@ -52,9 +55,29 @@ async function sendApiRequest(){
 }
 
 // ---------------------------------------Pull API data in----------------------------------
-// TODO -  Look into HTML encoding. Questions arent coming in correctly
+
+function removeBase64Encoding(answer) {
+    const newAnswer = {
+        category: window.atob(answer.category),
+        correct_answer: window.atob(answer.correct_answer),
+        difficulty: window.atob(answer.difficulty),
+        question: window.atob(answer.question),
+        type: window.atob(answer.type),
+        incorrect_answers: answer.incorrect_answers.map(window.atob)
+    }
+    return newAnswer
+}
+
+function removeEncoding(encodedAnswers) {
+
+   const newData = encodedAnswers.map(removeBase64Encoding)
+    return newData
+    
+}
+
+
 function useApiData(data) {
-document.querySelector("#question").innerHTML = `${data[0].question}`
+document.querySelector("#question").innerHTML = `${data[0].question.replace(/&amp;/g, '&')}`
 document.querySelector("#answer1").innerHTML = data[0].correct_answer
 document.querySelector("#answer2").innerHTML = data[0].incorrect_answers[0]
 document.querySelector("#answer3").innerHTML = data[0].incorrect_answers[1]
