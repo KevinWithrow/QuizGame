@@ -29,7 +29,7 @@ function refreshPage(){
     window.location.reload();
 } 
 
-
+const useRecursiveDecoding = true;
 async function sendApiRequest(){
     restartButton.classList.add('hide')
   var request = new XMLHttpRequest();
@@ -41,7 +41,12 @@ async function sendApiRequest(){
 
       response_json = JSON.parse(this.response); 
       data = response_json.results
-      data = removeEncoding(data)
+      if (useRecursiveDecoding) {
+        data = recursiveBase64Decode(data)
+      }else {
+        data = removeEncoding(data)
+      }
+      
       useApiData(data)
       console.log("test")
       console.log(data)
@@ -57,6 +62,21 @@ async function sendApiRequest(){
 }
 
 // ---------------------------------------Remove Base 64 encoding----------------------------------
+function recursiveBase64Decode (someData) {
+    if (typeof someData === 'string') return window.atob(someData)
+    else if (typeof someData === 'number') return window.atob(someData + '')
+    else if (Array.isArray(someData)) return someData.map(recursiveBase64Decode)
+    else if (typeof someData === 'object') {
+      const newObj = {}
+      for (const property in someData) {
+        newObj[property] = recursiveBase64Decode(someData[property])
+      }
+      return newObj
+    } else {
+      console.error('¯\_(ツ)_/¯')
+      return null
+    }
+  }
 
 function removeBase64Encoding(answer) {
     const newAnswer = {
