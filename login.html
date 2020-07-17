@@ -1,3 +1,6 @@
+
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +8,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Piedra&family=Roboto&display=swap" rel="stylesheet">
-  
+ 
 
-  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Piedra&family=Roboto&display=swap" rel="stylesheet">
+
+  <title>Quiz Game</title>
 </head>
 <body>
-  <h1 class="title">My Curious Nature</h1>
-  <h5> A quiz game to test your knowledge about science and nature.</h5>
-    <div class="main">
-      <!-- <p class="sign">Enter your</p> -->
-       <form action="index.html">
-        <label for="fname">User name:</label>
-        <input type="text" id="Username" name="fname"><br>
-        <!-- <input type="submit" id="signIn" value="Submit"> -->
-      </form>          
+  <h2 class ="score">Score: </h2>
+  <h2 id = "category"></h2>
+  <h2 class ="Username"></h2>
+  <div class="container">
+    <div id="questionContainer" class="hide">
+      <div id="question">Question</div>
+      <div id="answerButtons" class="btnGrid">
+        <button id="answer1" class="btn" >Answer 1</button>
+        <button id="answer2" class="btn">Answer 2</button>
+        <button id="answer3" class="btn">Answer 3</button>
+        <button id="answer4" class="btn">Answer 4</button>
     </div>
-      <script defer src="login.js"></script> 
-  </body>
-  
-
+  </div>
+  <div class="controls">
+    <button id="startBtn" class="startBtn btn">Start</button>
+    <button id="nextBtn" class="nextBtn hide">Next</button>
+    
+  </div>
+</div>
+<a href='index.html'><button id="home" class="btn">Home</button></a>
+<button id="restartbtn" onClick="refreshPage()" class="restartbtn btn">Restart</button>
+<script src="script.js"></script>
+</body>
 </html>
