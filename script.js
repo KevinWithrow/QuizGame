@@ -7,6 +7,7 @@ window.onload = sendApiRequest
 
 const startButton = document.getElementById('startBtn')
 const nextButton = document.getElementById('nextBtn')
+const restartButton = document.getElementById('restartbtn')
 const questionContainerElement = document.getElementById('questionContainer')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answerButtons')
@@ -30,11 +31,12 @@ function refreshPage(){
 
 
 async function sendApiRequest(){
+    restartButton.classList.add('hide')
   var request = new XMLHttpRequest();
   request.open('GET', 'https://opentdb.com/api.php?amount=4&category=17&difficulty=easy&type=multiple&encode=base64', true);
 
   request.onload = function() {
-
+    
     if (this.status >= 200 && this.status < 400) {
 
       response_json = JSON.parse(this.response); 
@@ -54,7 +56,7 @@ async function sendApiRequest(){
 
 }
 
-// ---------------------------------------Pull API data in----------------------------------
+// ---------------------------------------Remove Base 64 encoding----------------------------------
 
 function removeBase64Encoding(answer) {
     const newAnswer = {
@@ -74,10 +76,10 @@ function removeEncoding(encodedAnswers) {
     return newData
     
 }
-
+// ---------------------------------------Pull API data in----------------------------------
 
 function useApiData(data) {
-document.querySelector("#question").innerHTML = `${data[0].question.replace(/&amp;/g, '&')}`
+document.querySelector("#question").innerHTML = `${data[0].question}`
 document.querySelector("#answer1").innerHTML = data[0].correct_answer
 document.querySelector("#answer2").innerHTML = data[0].incorrect_answers[0]
 document.querySelector("#answer3").innerHTML = data[0].incorrect_answers[1]
@@ -141,8 +143,12 @@ function fillButton(buttonArray, answerString) {
     buttonArray.splice(randomIndex, 1)
 }
 // ---------------------------------------bring in answers for each button, if correct bring in CORRECT CSS---------------------------------
-function showQuestion(question) {
+function showQuestion(question) { 
     console.log(question)
+    if (currentQuestionIndex > 3) {
+        restartButton.classList.remove('hide')  
+    }
+
     questionElement.innerText = question.question
     const buttonArray = [document.getElementById('answer1'),
     document.getElementById('answer2'),
@@ -152,12 +158,8 @@ function showQuestion(question) {
     while (buttonArray.length > 0) {
         const incorrectAnswer = question.incorrect_answers.shift()
         fillButton(buttonArray, incorrectAnswer)
+        
     }
-
-    // answerBtnArray[0].innerHTML = question.correct_answer
-    // answerBtnArray[1].innerHTML = question.incorrect_answers[0]
-    // answerBtnArray[2].innerHTML = question.incorrect_answers[1]
-    // answerBtnArray[3].innerHTML = question.incorrect_answers[2]
     resetBtnColor()
   
 }
@@ -203,6 +205,7 @@ function selectAnswer(e) {
         nextButton.classList.remove('hide')
     } else {
         nextButton.classList.remove('hide')
+       
     }
 }
 
