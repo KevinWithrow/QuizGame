@@ -16,16 +16,17 @@ Type in your name and press Enter. You will then be taken to the game.
 # Start Game
 Press the start button and begin the game.
 
---INSERT PICTURE--
-
+![](Start.png)
 
 # Questions
 Read the questions and click the answer you believe is correct. If it is correct, you will be awarded a point. Then you will be prompted to go to the next question.
 
+![](Question.png)
+
 # End of Game
 When you have answered all 5 questions, a "RESTART" button will appear. If you click it, then you will restart the game as the same username you typed in. If you click the "HOME" button, it will take you to the login page.
 
---INSERT PICTURE--
+![](Restart.png)
 
 # Play the Game
 
