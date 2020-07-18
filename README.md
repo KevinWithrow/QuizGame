@@ -2,7 +2,7 @@
 This is a fun little trivia quiz game about science and nature! It allows the player to login  with a username and answer a series of questions as it keeps your score. Come test your knowledge about the world!
 
 # How it works
-Once you log into the game, you will be supplied with a series of questions being pulled from an external trivia API. 
+Once you log into the game, you will be supplied with a series of questions being pulled from an external trivia API. Then you are off to the races! 
 
 # Technologies
 - I used HTML, CSS, and Javascript to create this application.
