@@ -1,5 +1,5 @@
 # My Curious Nature Quiz Game
-This is a fun little trivia quiz game about science and nature! It allows the user to log in and answer a series of questions as it keeps your score. Come test your knowledge about the world!
+This is a fun little trivia quiz game about science and nature! It allows the player to login  with a username and answer a series of questions as it keeps your score. Come test your knowledge about the world!
 
 # How it works
 Once you log into the game, you will be supplied with a series of questions being pulled from an external trivia API. 
